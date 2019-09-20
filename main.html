@@ -1,0 +1,28 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Stolpediagram</title>
+    
+    <style>
+        .blackBorder{
+            stroke:black;
+            stroke-width:1px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <svg id="chart" width="500" viewBox="0 2 80 60"></svg>
+    </div>
+
+    <div id="selectedBar">Valgt stolpe: <i>ingen</i></div><br />
+    Verdi: <input type="number" min="1" max="10" id="inputValue"/><button onclick="addBar()">Legg til stolpe</button>
+    <button disabled id="buttonChangeBar" onclick="changeBar()">Endre valgt stolpe</button><br />
+    <button disabled id="buttonRemoveBar" onclick="removeBar()">Fjerne valgt stolpe</button>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
