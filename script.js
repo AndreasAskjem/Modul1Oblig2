@@ -24,8 +24,8 @@ function createBar(number, barNo) {
     }
     
     let x = (barNo - 1) * (width + spacing);
-    // Reduced height from 10 to 6 to stop tall bars from getting cut off.
-    let height = number * 6;
+    // Reduced height from 10 to 5 to stop tall bars from getting cut off.
+    let height = number * 5;
     let y = 60 - height;
     let color = calcColor(1, 10, barNo);
     // Added onclick so the bars can react to clicks.
@@ -41,7 +41,7 @@ function calcColor(min, max, val) {
     return colString;
 }
 
-let selectedBarPosition; //int, starting on 0.
+let selectedBarPosition; //int, counts from 0.
 let selectedBar = document.getElementById('selectedBar'); //element
 let aBarIsSelected = false; //bool
 let clickedBar; //element
@@ -143,6 +143,8 @@ function errorMessage(){
 }
 
 // Empties the input area.
+emptyInput();
 function emptyInput(){
     document.getElementById('inputValue').value = '';
+    document.getElementById('inputValue').focus();
 }
