@@ -41,46 +41,26 @@ function calcColor(min, max, val) {
     return colString;
 }
 
+
+
 let selectedBarPosition; //int, counts from 0.
-let selectedBar = document.getElementById('selectedBar'); //element
-let aBarIsSelected = false; //bool
+let selectedBar = document.getElementById('selectedBar'); //element, "Valgt stolpe"
 let clickedBar; //element
 let previousClickedBar; //element
 
 //Changes borders of bars and taggles buttons when bars are clicked
 function barOnClick(number){
     clickedBar = document.getElementById(`rect${number}`);
-    
-    if(clickedBar == previousClickedBar){
-        aBarIsSelected = !aBarIsSelected;
-    }
 
-    if(aBarIsSelected && (clickedBar == previousClickedBar)){
+    if(clickedBar.classList.contains('blackBorder')){
         removeBorder(number);
         disableButtons();
     }
     else{
         addBorder(number);
-        aBarIsSelected = false;
     }
 
     previousClickedBar = clickedBar;
-}
-
-// Removes the border of the previously clicked bar, and adds border to the clicked bar.
-function addBorder(number){
-    selectedBarPosition = number-1;
-    try{previousClickedBar.classList.remove('blackBorder');}
-    catch{}
-    try{clickedBar.classList.add('blackBorder');}
-    catch{}
-    enableButtons(number);
-}
-
-// Removes the border of the selected bar, if it has a border.
-function removeBorder(){
-    try{clickedBar.classList.remove('blackBorder');}
-    catch{}
 }
 
 // Adds the input to the end of numbers[] and redraws chart.
@@ -89,7 +69,6 @@ function addBar(){
     emptyInput();
     if(verifyInputValue(input)){
         numbers.push(input);
-        // MUST CHECK IF INPUT IS VALID
         removeBorder();
         disableButtons();
         showChart();
@@ -119,6 +98,24 @@ function removeBar(){
     emptyInput();
     disableButtons();
     showChart();
+}
+
+
+
+// Removes the border of the previously clicked bar, and adds border to the clicked bar.
+function addBorder(number){
+    selectedBarPosition = number-1;
+    try{previousClickedBar.classList.remove('blackBorder');}
+    catch{}
+    try{clickedBar.classList.add('blackBorder');}
+    catch{}
+    enableButtons(number);
+}
+
+// Removes the border of the selected bar, if it has a border.
+function removeBorder(){
+    try{clickedBar.classList.remove('blackBorder');}
+    catch{}
 }
 
 function enableButtons(number){
