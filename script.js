@@ -42,7 +42,6 @@ function calcColor(min, max, val) {
 }
 
 
-
 let selectedBarPosition; //int, counts from 0.
 let selectedBar = document.getElementById('selectedBar'); //element, "Valgt stolpe"
 let clickedBar; //element
@@ -99,7 +98,6 @@ function removeBar(){
     disableButtons();
     showChart();
 }
-
 
 
 // Removes the border of the previously clicked bar, and adds border to the clicked bar.
