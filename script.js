@@ -105,17 +105,20 @@ function removeBar(){
 // Removes the border of the previously clicked bar, and adds border to the clicked bar.
 function addBorder(number){
     selectedBarPosition = number-1;
-    try{previousClickedBar.classList.remove('blackBorder');}
-    catch{}
-    try{clickedBar.classList.add('blackBorder');}
-    catch{}
+
+    if(previousClickedBar !== undefined){
+        previousClickedBar.classList.remove('blackBorder');
+    }
+    clickedBar.classList.add('blackBorder');
+    
     enableButtons(number);
 }
 
 // Removes the border of the selected bar, if it has a border.
 function removeBorder(){
-    try{clickedBar.classList.remove('blackBorder');}
-    catch{}
+    if(clickedBar.classList.contains('blackBorder')){
+        clickedBar.classList.remove('blackBorder');
+    }
 }
 
 function enableButtons(number){
