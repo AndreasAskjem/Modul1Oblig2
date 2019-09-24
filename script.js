@@ -104,12 +104,19 @@ function removeBar(){
 function addBorder(number){
     selectedBarPosition = number-1;
 
+    //previousClickedBar is not defined the first time a bar is clicked,
+    //so this avoids any issues.
     if(previousClickedBar !== undefined){
         previousClickedBar.classList.remove('blackBorder');
     }
     clickedBar.classList.add('blackBorder');
     
     enableButtons(number);
+}
+
+// Returns true if the input value is valid (integer between 1 and 10).
+function verifyInputValue(input){
+    return((input > 0) && (input <= 10) && (Number.isInteger(input)));
 }
 
 // Removes the border of the selected bar, if it has a border.
@@ -129,11 +136,6 @@ function disableButtons(){
     selectedBar.innerHTML = `Valgt stolpe: <i>ingen</i>`;
     document.getElementById('buttonChangeBar').disabled = true;
     document.getElementById('buttonRemoveBar').disabled = true;
-}
-
-// Returns true if the input value is valid (integer between 1 and 10).
-function verifyInputValue(input){
-    return((input > 0) && (input <= 10) && (Number.isInteger(input)));
 }
 
 function errorMessage(){
