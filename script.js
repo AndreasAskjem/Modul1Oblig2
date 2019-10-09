@@ -1,5 +1,6 @@
-let numbers = [7, 3, 2, 5, 8];
+let numbers = [7, 3, 1, 5, 8];
 var svgTag = document.getElementById('chart');
+let selectedBar = `<i>ingen</i>`;
 showChart();
 
 function showChart() {
@@ -8,13 +9,14 @@ function showChart() {
         svgInnerHtml += createBar(numbers[i], i+1);
     }
     svgTag.innerHTML = svgInnerHtml;
+    document.getElementById('selectedBar').innerHTML = `Valgt stolpe: ${selectedBar}`;
 }
 
 // Creates and returns SVG elements (rectangles used as bars).
 function createBar(number, barNo) {
     let width = 8;
     const spacing = 2;
-    
+
     // Makes the bars thinner if there's too many to fit all of them.
     if(((width + spacing) * numbers.length) > 80){
         width = Math.floor((80 - (numbers.length * spacing)) / numbers.length);
@@ -22,16 +24,21 @@ function createBar(number, barNo) {
             width = 1;
         }
     }
-    
+
     let x = (barNo - 1) * (width + spacing);
     // Reduced height from 10 to 5 to stop tall bars from getting cut off.
     let height = number * 5;
     let y = 60 - height;
     let color = calcColor(1, 10, barNo);
+    let border = '';
+    if(barNo == selectedBar){
+        border = 'class="blackBorder"';
+    }
     // Added onclick so the bars can react to clicks.
     return `<rect id="rect${barNo}" width="${width}" height="${height}"
-            x="${x}" y="${y}" fill="${color}"
-            onclick="barOnClick(${barNo})"></rect>`;
+    x="${x}" y="${y}" fill="${color}"
+    ${border}
+    onclick="barOnClick(${barNo})"></rect>`;
 }
 
 function calcColor(min, max, val) {
@@ -42,33 +49,26 @@ function calcColor(min, max, val) {
 }
 
 
-let selectedBarPosition; //int, counts from 0.
-let selectedBar = document.getElementById('selectedBar'); //element, "Valgt stolpe"
-let clickedBar; //element
-let previousClickedBar; //element
-
-//Changes borders of bars and taggles buttons when bars are clicked
-function barOnClick(number){
-    clickedBar = document.getElementById(`rect${number}`);
-
-    if(clickedBar.classList.contains('blackBorder')){
-        removeBorder(number);
+//Changes borders of bars and toggles buttons when bars are clicked.
+function barOnClick(barNo){
+    if(document.getElementById(`rect${barNo}`).classList.contains('blackBorder')){
+        selectedBar = `<i>ingen</i>`;
         disableButtons();
     }
     else{
-        addBorder(number);
+        selectedBar = barNo;
+        enableButtons();
     }
-
-    previousClickedBar = clickedBar;
+    showChart();
 }
 
-// Adds the input to the end of numbers[] and redraws chart.
+// Adds the input to the end of numbers[].
 function addBar(){
     let input = Number(document.getElementById('inputValue').value);
     emptyInput();
     if(verifyInputValue(input)){
         numbers.push(input);
-        removeBorder();
+        selectedBar = `<i>ingen</i>`;
         disableButtons();
         showChart();
     }
@@ -82,7 +82,8 @@ function changeBar(){
     let input = Number(document.getElementById('inputValue').value);
     emptyInput();
     if(verifyInputValue(input)){
-        numbers[selectedBarPosition] = input;
+        numbers[selectedBar-1] = input;
+        selectedBar = `<i>ingen</i>`;
         disableButtons();
         showChart();
     }
@@ -93,37 +94,17 @@ function changeBar(){
 
 // Removes the selected bar.
 function removeBar(){
-    numbers.splice(selectedBarPosition, 1);
+    numbers.splice(selectedBar-1, 1);
     emptyInput();
+    selectedBar = `<i>ingen</i>`;
     disableButtons();
     showChart();
 }
 
 
-// Removes the border of the previously clicked bar, and adds border to the clicked bar.
-function addBorder(number){
-    selectedBarPosition = number-1;
-
-    //previousClickedBar is not defined the first time a bar is clicked,
-    //so this avoids any issues.
-    if(previousClickedBar !== undefined){
-        previousClickedBar.classList.remove('blackBorder');
-    }
-    clickedBar.classList.add('blackBorder');
-    
-    enableButtons(number);
-}
-
 // Returns true if the input value is valid (integer between 1 and 10).
 function verifyInputValue(input){
     return((input > 0) && (input <= 10) && (Number.isInteger(input)));
-}
-
-// Removes the border of the selected bar, if it has a border.
-function removeBorder(){
-    if(clickedBar.classList.contains('blackBorder')){
-        clickedBar.classList.remove('blackBorder');
-    }
 }
 
 function enableButtons(number){
@@ -133,7 +114,6 @@ function enableButtons(number){
 }
 
 function disableButtons(){
-    selectedBar.innerHTML = `Valgt stolpe: <i>ingen</i>`;
     document.getElementById('buttonChangeBar').disabled = true;
     document.getElementById('buttonRemoveBar').disabled = true;
 }
@@ -142,7 +122,7 @@ function errorMessage(){
     alert('Du må bruke heltall fra 1 til 10!');
 }
 
-// Empties the input area.
+// Empties the input area and focuses on it.
 emptyInput();
 function emptyInput(){
     document.getElementById('inputValue').value = '';
