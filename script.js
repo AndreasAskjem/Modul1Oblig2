@@ -9,7 +9,7 @@ function showChart() {
         svgInnerHtml += createBar(numbers[i], i+1);
     }
     svgTag.innerHTML = svgInnerHtml;
-    let valgtStolpe = document.getElementById('selectedBar');
+    let valgtStolpe = document.getElementById('valgtStolpe');
 
     if(selectedBar===null){
         valgtStolpe.innerHTML = `Valgt stolpe: <i>ingen</i>`;
@@ -17,7 +17,6 @@ function showChart() {
     else{
         valgtStolpe.innerHTML =  `Valgt stolpe: ${selectedBar}`;
     }
-    //document.getElementById('selectedBar').innerHTML = `Valgt stolpe: ${selectedBar}`;
 }
 
 // Creates and returns SVG elements (rectangles used as bars).
@@ -43,7 +42,7 @@ function createBar(number, barNo) {
         border = 'class="blackBorder"';
     }
     // Added onclick so the bars can react to clicks.
-    return `<rect id="rect${barNo}" width="${width}" height="${height}"
+    return `<rect width="${width}" height="${height}"
     x="${x}" y="${y}" fill="${color}"
     ${border}
     onclick="barOnClick(${barNo})"></rect>`;
@@ -58,19 +57,17 @@ function calcColor(min, max, val) {
 
 
 //Changes borders of bars and toggles buttons when bars are clicked.
-function barOnClick(barNo){
-    let clickedBar = barNo;
+function barOnClick(clickedBar){
     if(clickedBar == selectedBar){
         selectedBar = null;
         disableButtons();
     }
     else{
-        selectedBar = barNo;
+        selectedBar = clickedBar;
         enableButtons();
     }
     showChart();
 }
-
 
 // Adds the input to the end of numbers[].
 function addBar(){
@@ -118,7 +115,6 @@ function verifyInputValue(input){
 }
 
 function enableButtons(number){
-    selectedBar.innerHTML = `Valgt stolpe: ${number}`;
     document.getElementById('buttonChangeBar').disabled = false;
     document.getElementById('buttonRemoveBar').disabled = false;
 }

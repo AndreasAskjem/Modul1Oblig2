@@ -8,7 +8,7 @@
     <style>
         .blackBorder{
             stroke:black;
-            stroke-width:1px;
+            stroke-width:0.5px;
         }
     </style>
 </head>
@@ -17,7 +17,7 @@
         <svg id="chart" width="500" viewBox="-1 1 80 60"></svg>
     </div>
 
-    <div id="selectedBar">Valgt stolpe: <i>ingen</i></div><br />
+    <div id="valgtStolpe">Valgt stolpe: <i>ingen</i></div><br />
     Verdi: <input type="number" min="1" max="10" id="inputValue"/><button onclick="addBar()">Legg til stolpe</button>
     <button disabled id="buttonChangeBar" onclick="changeBar()">Endre valgt stolpe</button><br />
     <button disabled id="buttonRemoveBar" onclick="removeBar()">Fjerne valgt stolpe</button>
